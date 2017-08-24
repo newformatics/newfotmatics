@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import Task, Answer
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,3 +32,4 @@ class AnswerSerializer(serializers.HyperlinkedModelSerializer):
         if obj.author != user or not user.is_staff:
             return 'hidden'
         return obj.code
+

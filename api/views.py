@@ -4,6 +4,11 @@ from rest_framework import viewsets
 from .models import Task, Answer
 from .serializers import TaskSerializer, AnswerSerializer
 from .permissions import IsOwnerOrReadOnly
+from django.http import JsonResponse, HttpResponseRedirect
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -22,3 +27,8 @@ class AnswerViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        super().create(request=request, *args, **kwargs)
+        logger.error('Here is the code: %s' % self.request.data['code'])
+        return JsonResponse({'created': True})

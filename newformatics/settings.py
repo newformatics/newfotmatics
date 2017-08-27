@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import psycopg2
+import memcache
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -95,25 +97,10 @@ DATABASES = {
 
 CACHES = {
     'default': {
-        'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': [
-            '<host>:<port>',
-            '<host>:<port>',
-            '<host>:<port>',
-        ],
-        'OPTIONS': {
-            'DB': 1,
-            'PASSWORD': 'yadayada',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
-            'CONNECTION_POOL_CLASS': 'redis.BlockingConnectionPool',
-            'CONNECTION_POOL_CLASS_KWARGS': {
-                'max_connections': 50,
-                'timeout': 20,
-            },
-            'MAX_CONNECTIONS': 1000,
-            'PICKLE_VERSION': -1,
-        },
-    },
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'KEY_PREFIX': 'newformatics',
+        'LOCATION': 'unix:/home/misha/Desktop/webprojects/newformatics/newformatics_memcached.sock',
+    }
 }
 
 # Password validation
